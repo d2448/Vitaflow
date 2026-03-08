@@ -1,0 +1,44 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Stores user preferences and pregnancy status",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["pregnant", "athlete", "both"] },
+        "pregnancyDueDate": { "type": "string", "format": "date" },
+        "fitnessLevel": { "type": "string", "enum": ["beginner", "intermediate", "advanced"] },
+        "dietaryPreferences": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "DiaryEntry": {
+      "title": "Diary Entry",
+      "description": "Daily log of symptoms, mood, and notes",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "mood": { "type": "string" },
+        "notes": { "type": "string" },
+        "symptoms": { "type": "array", "items": { "type": "string" } },
+        "imageUrl": { "type": "string" }
+      },
+      "required": ["userId", "date", "mood"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Individual user profiles"
+    },
+    "/users/{userId}/diary": {
+      "schema": "DiaryEntry",
+      "description": "User's pregnancy diary entries"
+    }
+  }
+}
